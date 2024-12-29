@@ -6,11 +6,13 @@ const app = express();
 const port = 3000;
 
 app.use(express.json());
-
-// Routes
 app.use('/flights', flightRoutes);
 app.use('/bookings', bookingRoutes);
 
-app.listen(port, () => {
-    console.log(`Server is running on http://localhost:${port}`);
-});
+if (process.env.NODE_ENV !== 'test') {
+    app.listen(port, () => {
+        console.log(`Server is running on http://localhost:${port}`);
+    });
+}
+
+module.exports = app;
