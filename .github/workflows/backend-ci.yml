@@ -44,8 +44,8 @@ jobs:
           echo "DB_TEST_PORT=5432" >> .env.test
         working-directory: ./backend
 
-      - name: Debug Environment Variables
-        run: printenv | grep NODE_ENV
+      - name: Debug All Environment Variables
+        run: printenv
 
       - name: Wait for PostgreSQL
         run: |
