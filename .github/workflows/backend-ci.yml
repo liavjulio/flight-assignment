@@ -45,8 +45,7 @@ jobs:
         working-directory: ./backend
 
       - name: Debug Environment Variables
-        run: cat .env.test
-        working-directory: ./backend
+        run: printenv | grep NODE_ENV
 
       - name: Wait for PostgreSQL
         run: |
@@ -64,22 +63,17 @@ jobs:
         env:
           PGPASSWORD: postgres
 
-      - name: Verify Database Connection
-        run: |
-          PGPASSWORD=postgres psql -h localhost -U postgres -d flight_booking_test -c '\dt'
-        env:
-          PGPASSWORD: postgres
-
       - name: Run Migrations
         run: npx sequelize-cli db:migrate --env test
         working-directory: ./backend
 
-      - name: Debug Migration Status
-        run: npx sequelize-cli db:migrate:status --env test
-        working-directory: ./backend
+      - name: Check Tables
+        run: psql -h localhost -U postgres -d flight_booking_test -c '\dt'
+        env:
+          PGPASSWORD: postgres
 
       - name: Run Tests
-        run: npm test -- --detectOpenHandles --verbose
+        run: npm test -- --runInBand --detectOpenHandles --verbose
         working-directory: ./backend
         env:
           NODE_ENV: test
