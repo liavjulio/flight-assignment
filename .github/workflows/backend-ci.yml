@@ -21,14 +21,9 @@ jobs:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
           POSTGRES_DB: flight_booking_dev # Matches your development database
-        options: >-
-          --health-cmd="pg_isready -U postgres"
-          --health-interval=10s
-          --health-timeout=5s
-          --health-retries=5
 
     steps:
-      # Step 1: Checkout code
+      # Step 1: Checkout Code
       - name: Checkout Code
         uses: actions/checkout@v3
 
@@ -38,41 +33,50 @@ jobs:
         with:
           node-version: 16
 
-      # Step 3: Install Dependencies
+      # Step 3: Navigate to Backend Directory
+      - name: Change Working Directory to Backend
+        working-directory: ./backend
+
+      # Step 4: Install Dependencies
       - name: Install Dependencies
         run: npm install
+        working-directory: ./backend
 
-      # Step 4: Configure Test Environment
+      # Step 5: Configure Test Environment
       - name: Configure Test Environment
         run: |
           echo "DB_TEST_USER=postgres" >> .env.test
           echo "DB_TEST_PASS=postgres" >> .env.test
           echo "DB_TEST_NAME=flight_booking_dev" >> .env.test
           echo "DB_TEST_HOST=localhost" >> .env.test
+        working-directory: ./backend
 
-      # Step 5: Wait for PostgreSQL to be Ready
+      # Step 6: Wait for PostgreSQL to be Ready
       - name: Wait for PostgreSQL
         run: |
           until pg_isready -h localhost -p 5432 -U postgres; do
             echo "Waiting for PostgreSQL...";
             sleep 5;
           done
+        env:
+          PGPASSWORD: postgres
 
-      # Step 6: Create Test Database (if it doesn't exist)
+      # Step 7: Create Test Database
       - name: Create Test Database
         run: |
           psql -h localhost -U postgres -c "CREATE DATABASE flight_booking_dev;"
         env:
           PGPASSWORD: postgres
 
-      # Step 7: Run Migrations
+      # Step 8: Run Migrations
       - name: Run Migrations
         run: npx sequelize-cli db:migrate --env test
+        working-directory: ./backend
 
-      # Step 8: Run Tests
+      # Step 9: Run Tests
       - name: Run Tests
         run: npm test
-
+        working-directory: ./backend
   deploy:
     needs: build-and-test
     runs-on: ubuntu-latest
