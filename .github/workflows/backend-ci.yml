@@ -3,10 +3,10 @@ name: Backend CI/CD
 on:
   push:
     branches:
-      - devlop
+      - develop
   pull_request:
     branches:
-      - devlop
+      - develop
 
 jobs:
   build-and-test:
