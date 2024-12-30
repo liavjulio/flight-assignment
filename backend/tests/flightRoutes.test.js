@@ -1,6 +1,16 @@
 const request = require('supertest');
 const app = require('../server');
 
+let server;
+
+beforeAll(() => {
+    server = app.listen(4000); // Start on a different port
+});
+
+afterAll(async () => {
+    await server.close(); // Ensure server stops after tests
+});
+
 describe('Flight Routes', () => {
     it('should fetch all flights', async () => {
         const res = await request(app).get('/flights');
