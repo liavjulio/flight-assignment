@@ -57,12 +57,12 @@ jobs:
         env:
           PGPASSWORD: postgres
 
-      # # Step 6: Create Test Database
-      # - name: Create Test Database
-      #   run: |
-      #     psql -h localhost -U postgres -c "CREATE DATABASE flight_booking_test;"
-      #   env:
-      #     PGPASSWORD: postgres
+      # Step 6: Create Test Database
+      - name: Create Test Database
+        run: |
+          psql -h localhost -U postgres -c "CREATE DATABASE flight_booking_test;"
+        env:
+          PGPASSWORD: postgres
 
       # Step 7: Run Migrations
       - name: Run Migrations
