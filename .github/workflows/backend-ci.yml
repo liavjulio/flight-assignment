@@ -32,9 +32,11 @@ jobs:
           node-version: 16
 
       - name: Install Dependencies
+        working-directory: backend  # Navigate to the backend directory
         run: npm install
 
       - name: Configure Test Environment
+        working-directory: backend  # Navigate to the backend directory
         run: |
           echo "DB_TEST_USER=postgres" >> .env.test
           echo "DB_TEST_PASS=postgres" >> .env.test
@@ -42,15 +44,9 @@ jobs:
           echo "DB_TEST_HOST=localhost" >> .env.test
 
       - name: Run Migrations
+        working-directory: backend  # Navigate to the backend directory
         run: npx sequelize-cli db:migrate --env test
 
       - name: Run Tests
+        working-directory: backend  # Navigate to the backend directory
         run: npm test
-
-  deploy:
-    needs: build-and-test
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Deployment Placeholder
-        run: echo "Add deployment steps here"
