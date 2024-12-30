@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const Sequelize = require('sequelize');
-const config = require(__dirname + '/../config/config.json')['development'];
+const config = require(__dirname + '/../config/config.js')['development'];
 
 const sequelize = new Sequelize(config.database, config.username, config.password, {
   host: config.host,
