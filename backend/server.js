@@ -1,21 +1,22 @@
-
-const flightRoutes = require('./routes/flightRoutes');
-const bookingRoutes = require('./routes/bookingRoutes');
 const express = require('express');
-const cors = require('cors'); // Import cors
-
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 
-app.use(cors()); // Enable CORS
+// Middleware
 app.use(express.json());
 
-// Your routes
+// Routes
+const flightRoutes = require('./routes/flightRoutes');
+const bookingRoutes = require('./routes/bookingRoutes');
+
 app.use('/flights', flightRoutes);
 app.use('/bookings', bookingRoutes);
 
-app.listen(port, () => {
-    console.log(`Server is running on http://localhost:${port}`);
-});
+// Start the server only if not in test environment
+if (process.env.NODE_ENV !== 'test') {
+    app.listen(port, () => {
+        console.log(`Server is running on http://localhost:${port}`);
+    });
+}
 
 module.exports = app;
