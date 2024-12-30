@@ -44,7 +44,7 @@ jobs:
           echo "DB_TEST_PORT=5432" >> .env.test
         working-directory: ./backend
 
-      - name: Debug All Environment Variables
+      - name: Debug Environment Variables
         run: printenv
 
       - name: Wait for PostgreSQL
@@ -66,11 +66,6 @@ jobs:
       - name: Run Migrations
         run: npx sequelize-cli db:migrate --env test
         working-directory: ./backend
-
-      - name: Check Tables
-        run: psql -h localhost -U postgres -d flight_booking_test -c '\dt'
-        env:
-          PGPASSWORD: postgres
 
       - name: Run Tests
         run: npm test -- --runInBand --detectOpenHandles --verbose

@@ -16,13 +16,14 @@ afterAll(async () => {
 });
 
 describe('Booking Routes', () => {
+    console.log('Current NODE_ENV:', process.env.NODE_ENV);
     it('should fetch all bookings', async () => {
         const res = await request(app).get('/bookings');
         console.log('Fetch All Bookings Response:', res.body); // Debugging log
         expect(res.statusCode).toEqual(200);
         expect(Array.isArray(res.body)).toBe(true);
     });
-
+    
     it('should create a new booking', async () => {
         const res = await request(app)
             .post('/bookings')

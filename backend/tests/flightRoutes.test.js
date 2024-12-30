@@ -12,6 +12,7 @@ afterAll(async () => {
 });
 
 describe('Flight Routes', () => {
+    console.log('Current NODE_ENV:', process.env.NODE_ENV);
     it('should fetch all flights', async () => {
         const res = await request(app).get('/flights');
         expect(res.statusCode).toEqual(200);
