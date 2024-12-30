@@ -60,7 +60,8 @@ jobs:
       # Step 6: Create Test Database
       - name: Create Test Database
         run: |
-          psql -h localhost -U postgres -c "CREATE DATABASE flight_booking_test;"
+          psql -h localhost -U postgres -tc "SELECT 1 FROM pg_database WHERE datname = 'flight_booking_test'" | grep -q 1 || \
+           psql -h localhost -U postgres -c "CREATE DATABASE flight_booking_test;"
         env:
           PGPASSWORD: postgres
 
