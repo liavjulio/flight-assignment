@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  # Backend Service
+  backend:
+    build:
+      context: ./backend  # This should point to the backend directory where the Dockerfile is located
+    container_name: flight-backend
+    ports:
+      - "3000:3000"
+    environment:
+      - DB_PROD_HOST=db
+      - DB_PROD_PORT=5432
+      - DB_PROD_USER=postgres
+      - DB_PROD_PASS=postgres
+      - DB_PROD_NAME=flight_booking_prod
+    depends_on:
+      - db
+
+  # Database Service
+  db:
+    image: postgres:13
+    container_name: flight-db
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=flight_booking_prod
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+# Volumes to persist the database data
+volumes:
+  postgres_data:
+    driver: local
