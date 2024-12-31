@@ -85,4 +85,4 @@ jobs:
         run: npm start # Replace with your deployment script
         working-directory: ./backend
         env:
-          NODE_ENV: dev
+          NODE_ENV: development
