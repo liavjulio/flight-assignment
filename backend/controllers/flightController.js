@@ -3,9 +3,12 @@ const { Flight } = require('../models');
 // Fetch all flights
 const getFlights = async (req, res) => {
     try {
+        console.log('Querying Flights...');
         const flights = await Flight.findAll();
+        console.log('Flights fetched:', JSON.stringify(flights, null, 2));  // Log the result
         res.json(flights);
     } catch (error) {
+        console.error('Error fetching flights:', error);  // Log any error
         res.status(500).json({ error: error.message });
     }
 };

@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const API = axios.create({
-    baseURL: 'https://flight-assignment-4iug.onrender.com', // Backend server URL
+    baseURL: process.env.REACT_APP_BACKEND_URL || 'http://localhost:3000', // Backend server URL
 });
 
 
