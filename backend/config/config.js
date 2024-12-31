@@ -21,7 +21,7 @@ module.exports = {
         username: process.env.DB_PROD_USER || 'postgres',
         password: process.env.DB_PROD_PASS || 'postgres',
         database: process.env.DB_PROD_NAME || 'flight_booking_prod',
-        host: process.env.DB_PROD_HOST || '0.tcp.ngrok.io',
+        host: process.env.DB_PROD_HOST || '0.tcp.eu.ngrok.io',
         port: process.env.DB_PROD_PORT || 19332,
         dialect: 'postgres',
     },
