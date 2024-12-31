@@ -37,11 +37,11 @@ jobs:
 
       - name: Configure Test Environment
         run: |
-          echo "DB_TEST_USER=postgres" >> .env.test
-          echo "DB_TEST_PASS=postgres" >> .env.test
-          echo "DB_TEST_NAME=flight_booking_test" >> .env.test
-          echo "DB_TEST_HOST=localhost" >> .env.test
-          echo "DB_TEST_PORT=5432" >> .env.test
+          echo "DB_USER=postgres" >> .env.test
+          echo "DB_PASS=postgres" >> .env.test
+          echo "DB_NAME=flight_booking_test" >> .env.test
+          echo "DB_HOST=localhost" >> .env.test
+          echo "DB_PORT=5432" >> .env.test
         working-directory: ./backend
 
       - name: Debug Environment Variables
