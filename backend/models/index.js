@@ -1,7 +1,8 @@
 const fs = require('fs');
 const path = require('path');
 const Sequelize = require('sequelize');
-const config = require(__dirname + '/../config/config.js')['development'];
+const env = process.env.NODE_ENV || 'development'; // Use test for CI or development locally
+const config = require(__dirname + '/../config/config.js')[env];
 
 const sequelize = new Sequelize(config.database, config.username, config.password, {
   host: config.host,
