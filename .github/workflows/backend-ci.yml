@@ -1,4 +1,4 @@
-name: Backend CI/CD
+name: Backend CI
 
 on:
   push:
@@ -72,31 +72,3 @@ jobs:
         working-directory: ./backend
         env:
           NODE_ENV: test
-
-  deploy:
-    needs: build-and-test
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v3
-
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v3
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: eu-north-1
-
-      - name: Deploy to Elastic Beanstalk
-        run: |
-          zip -r backend.zip .
-          aws s3 cp backend.zip s3://flight-booking-k/backend.zip
-          aws elasticbeanstalk create-application-version \
-            --application-name flight-assignment \
-            --version-label ${{ github.sha }} \
-            --source-bundle S3Bucket="flight-booking-k",S3Key="backend.zip"
-          aws elasticbeanstalk update-environment \
-            --environment-name flight-assignment-env \
-            --version-label ${{ github.sha }}
-        working-directory: ./backend
