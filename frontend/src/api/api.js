@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const API = axios.create({
-    baseURL: 'http://localhost:3000', // Backend server URL
+    baseURL: 'https://flight-assignment-4iug.onrender.com', // Backend server URL
 });
 
 

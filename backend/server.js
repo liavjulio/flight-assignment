@@ -7,11 +7,12 @@ const port = process.env.PORT || 3000;
 // Middleware
 app.use(express.json());
 // Allow requests from the frontend origin
-const corsOptions = {
-    origin: 'https://flight-client-ellt.onrender.com', // Frontend URL
-    methods: 'GET,POST,PUT,DELETE,OPTIONS',
-    allowedHeaders: 'Content-Type,Authorization',
-};
+const allowedOrigins = ['https://flight-client-ellt.onrender.com']; // Replace with your frontend Render URL
+
+app.use(cors({
+    origin: allowedOrigins,
+    credentials: true, // If you need cookies or authorization headers
+}));
 
 app.use(cors(corsOptions));
 // Routes
