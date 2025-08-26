@@ -21,7 +21,7 @@ app.use(
         imgSrc: ["'self'", 'data:', 'https:'],
       },
     },
-  })
+  }),
 );
 
 // Rate limiting
@@ -88,7 +88,7 @@ app.use(
   swaggerUi.setup(specs, {
     explorer: true,
     customCss: '.swagger-ui .topbar { display: none }',
-  })
+  }),
 );
 
 // Health check endpoint
@@ -140,7 +140,7 @@ app.use((err, req, res, next) => {
   if (err.name === 'SequelizeValidationError') {
     return res.status(400).json({
       error: 'Database Validation Error',
-      message: err.errors.map(e => e.message),
+      message: err.errors.map((e) => e.message),
     });
   }
 

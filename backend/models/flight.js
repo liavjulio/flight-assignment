@@ -1,5 +1,5 @@
-'use strict';
 const { Model } = require('sequelize');
+
 module.exports = (sequelize, DataTypes) => {
   class Flight extends Model {
     /**
@@ -24,7 +24,7 @@ module.exports = (sequelize, DataTypes) => {
       modelName: 'Flight',
       tableName: 'Flights',
       timestamps: true, // Ensure timestamps are handled
-    }
+    },
   );
   return Flight;
 };

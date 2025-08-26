@@ -13,8 +13,8 @@ const getBookings = async (req, res) => {
 // Create a new booking
 const createBooking = async (req, res) => {
   try {
-    const { flight_id, user_name, email } = req.body;
-    const booking = await Booking.create({ flight_id, user_name, email });
+    const { flight_id: flightId, user_name: userName, email } = req.body;
+    const booking = await Booking.create({ flight_id: flightId, user_name: userName, email });
     res.status(201).json(booking);
   } catch (error) {
     res.status(500).json({ error: error.message });

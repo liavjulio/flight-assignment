@@ -1,5 +1,6 @@
 const express = require('express');
 const { getFlights, searchFlights, createFlight } = require('../controllers/flightController');
+
 const router = express.Router();
 
 router.get('/', getFlights);

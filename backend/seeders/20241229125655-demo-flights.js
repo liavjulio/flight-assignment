@@ -1,13 +1,11 @@
-'use strict';
-
 module.exports = {
   async up(queryInterface, Sequelize) {
     // Check if flights already exist to prevent duplicates
     const existingFlights = await queryInterface.sequelize.query(
       'SELECT COUNT(*) as count FROM "Flights"',
-      { type: Sequelize.QueryTypes.SELECT }
+      { type: Sequelize.QueryTypes.SELECT },
     );
-    
+
     if (existingFlights[0].count > 0) {
       console.log('Flights already exist, skipping seeding...');
       return Promise.resolve();
