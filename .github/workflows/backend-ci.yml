@@ -1,38 +1,53 @@
-name: Backend CI
+name: Backend CI/CD
 
 on:
   push:
-    branches:
-      - develop
+    branches: [main, develop]
+    paths: ['backend/**', '.github/workflows/backend-ci.yml']
   pull_request:
-    branches:
-      - develop
+    branches: [main, develop]
+    paths: ['backend/**', '.github/workflows/backend-ci.yml']
 
 jobs:
-  build-and-test:
+  lint-and-test:
     runs-on: ubuntu-latest
 
     services:
       postgres:
-        image: postgres:14
+        image: postgres:15
         ports:
           - 5432:5432
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
           POSTGRES_DB: flight_booking_test
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
 
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set up Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: 16
+          node-version: 18
+          cache: 'npm'
+          cache-dependency-path: backend/package-lock.json
 
       - name: Install Dependencies
-        run: npm install
+        run: npm ci
+        working-directory: ./backend
+
+      - name: Run Linting
+        run: npm run lint
+        working-directory: ./backend
+
+      - name: Run Format Check
+        run: npm run format:check
         working-directory: ./backend
 
       - name: Configure Test Environment
@@ -44,14 +59,11 @@ jobs:
           echo "DB_TEST_PORT=5432" >> .env.test
         working-directory: ./backend
 
-      - name: Debug Environment Variables
-        run: printenv
-
       - name: Wait for PostgreSQL
         run: |
           until pg_isready -h localhost -p 5432 -U postgres; do
             echo "Waiting for PostgreSQL...";
-            sleep 5;
+            sleep 2;
           done
         env:
           PGPASSWORD: postgres
@@ -67,8 +79,15 @@ jobs:
         run: npx sequelize-cli db:migrate --env test
         working-directory: ./backend
 
-      - name: Run Tests
-        run: npm test -- --runInBand --detectOpenHandles --verbose
+      - name: Run Tests with Coverage
+        run: npm run test:coverage
         working-directory: ./backend
         env:
           NODE_ENV: test
+
+      - name: Upload Coverage Reports
+        uses: codecov/codecov-action@v3
+        with:
+          file: ./backend/coverage/lcov.info
+          flags: backend
+          name: backend-coverage
