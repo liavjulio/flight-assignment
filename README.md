@@ -10,7 +10,7 @@
 
 A modern, full-stack flight booking system built with cutting-edge technologies and best practices.
 
-[🚀 Live Demo](https://your-demo-url.com) • [📚 Documentation](https://your-docs-url.com) • [🐛 Report Bug](https://github.com/liavjulio/flight-assignment/issues) • [💡 Request Feature](https://github.com/liavjulio/flight-assignment/issues)
+[📚 Documentation](https://your-docs-url.com) • [🐛 Report Bug](https://github.com/liavjulio/flight-assignment/issues) • [💡 Request Feature](https://github.com/liavjulio/flight-assignment/issues)
 
 </div>
 
